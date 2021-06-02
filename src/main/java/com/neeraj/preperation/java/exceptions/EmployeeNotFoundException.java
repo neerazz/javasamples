@@ -1,7 +1,4 @@
-package com.neeraj.preperation.exceptions;
-
-import java.util.*;
-import java.io.*;
+package com.neeraj.preperation.java.exceptions;
 
 public class EmployeeNotFoundException extends RuntimeException {
 

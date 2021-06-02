@@ -1,9 +1,8 @@
-package com.neeraj.preperation.exceptions;
+package com.neeraj.preperation.java.exceptions;
 
-import com.neeraj.preperation.oops.imutability.Employee;
+import com.neeraj.preperation.java.oops.imutability.Employee;
 
 import java.util.*;
-import java.io.*;
 
 //https://www.baeldung.com/java-checked-unchecked-exceptions
 public class EmployeeFunction {

@@ -1,9 +1,7 @@
-package com.neeraj.preperation.concurrency;
+package com.neeraj.preperation.java.concurrency;
 
 import org.junit.jupiter.api.Assertions;
 
-import java.util.*;
-import java.io.*;
 import java.util.concurrent.*;
 
 /**
@@ -13,10 +11,10 @@ import java.util.concurrent.*;
 
 public class Executors {
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
-        simpleCompletableFutures();
-        processingResultFromCompletableFuture();
-    }
+//    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+//        simpleCompletableFutures();
+//        processingResultFromCompletableFuture();
+//    }
 
     static void simpleCompletableFutures() throws ExecutionException, InterruptedException, TimeoutException {
 //        Traditional Future approach.
@@ -44,7 +42,7 @@ public class Executors {
         CompletableFuture<Void> future3 = future.thenRun(() -> System.out.println("Computation finished."));
         future3.get();
 
-//        You can also compose, another CompletableFuture. like chaining.
+//        You can also compose, another CompletableFuture, from the previous result. like chaining.
         CompletableFuture<String> future4 = future.thenCompose(s -> CompletableFuture.supplyAsync(() -> s + " World"));
         Assertions.assertEquals("Hello World", future4.get());
     }

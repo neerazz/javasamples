@@ -1,6 +1,5 @@
-package com.neeraj.preperation.oops.imutability;
+package com.neeraj.preperation.java.oops.imutability;
 
-import lombok.Data;
 import lombok.Getter;
 
 import java.util.*;

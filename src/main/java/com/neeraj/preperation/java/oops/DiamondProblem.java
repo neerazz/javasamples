@@ -1,7 +1,4 @@
-package com.neeraj.preperation.oops;
-
-import java.util.*;
-import java.io.*;
+package com.neeraj.preperation.java.oops;
 
 public class DiamondProblem {
 

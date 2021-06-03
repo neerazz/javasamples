@@ -5,8 +5,13 @@ import lombok.Getter;
 import java.util.*;
 import java.io.*;
 
+/**
+ * Created on:  Jun 03, 2021
+ * Ref: https://howtodoinjava.com/java/serialization/custom-serialization-readobject-writeobject/
+ */
+
 @Getter
-public class Employee {
+public class Employee implements Serializable {
 
     String empId;
     String firstName;
@@ -45,26 +50,39 @@ public class Employee {
     public String getEmpId() {
         return empId;
     }
-}
 
-@Getter
-class Address {
-    private String line1;
-    private String line2;
-    private String city;
-    private String zip;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    //    Create a private constructor.
-    public Address(String line1, String line2, String city, String zip) {
-        this.line1 = line1;
-        this.line2 = line2;
-        this.city = city;
-        this.zip = zip;
+        Employee employee = (Employee) o;
+
+        if (!Objects.equals(empId, employee.empId)) return false;
+        if (!Objects.equals(firstName, employee.firstName)) return false;
+        if (!Objects.equals(lastName, employee.lastName)) return false;
+        if (!Objects.equals(address, employee.address)) return false;
+        return Objects.equals(state, employee.state);
     }
 
-    //    Create a clone Method.
     @Override
-    protected Address clone() {
-        return new Address(line1, line2, city, zip);
+    public int hashCode() {
+        int result = empId != null ? empId.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "empId='" + empId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address=" + address +
+                ", state='" + state + '\'' +
+                '}';
     }
 }

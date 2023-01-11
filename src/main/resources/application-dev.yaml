@@ -1,0 +1,31 @@
+# JPA specific configs
+spring:
+  application:
+    name: java-samples-dev
+  profiles:
+    active: ${ENV_NAME:local}
+  h2:
+    console:
+      enabled: false
+      path: /h2-console
+
+server:
+  port: 1007
+
+java-samples:
+  db:
+    url: jdbc:postgresql://localhost:1432/security-vms
+    username: postgres
+    password: my-secret-pw
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    driverClassName: org.postgresql.Driver
+    ddl-auto: update
+    show-sql: true
+    dbSchema: public
+    dd-auto: update
+
+# Kafka properties
+kafka:
+  bootstrapServers: localhost:9092
+  schemaRegistryUrl: http://localhost:18081
+  consumerGroupId: consumer-g1

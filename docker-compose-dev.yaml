@@ -1,0 +1,169 @@
+version: '3.4'
+
+# If you update this file, please also update `docker-compose-buildkite.yaml`
+
+x-build-args: &build_args
+  GID: 80
+  GROUP: www
+  UID: 1001
+  USER: neeraj
+  GRADLE_OPENJDK_IMAGE_NAME: gradle7-openjdk17
+  GRADLE_OPENJDK_VERSION: 2022.04.26
+  OPENJDK_JRE_IMAGE_NAME: openjdk17-jdk
+  OPENJDK_JRE_VERSION: 2022.04.26
+
+services:
+  # Application entrypoint
+  service:
+    build:
+      context: .
+      dockerfile: docker/dev.dockerfile
+      args:
+        <<: *build_args
+    image: neerazz/javaSamples-dev
+    container_name: javaSamples-dev
+    stdin_open: true
+    tty: true
+    ports:
+      - "8080:1007"
+    volumes:
+      - "./credentials:/neeraj/etc/priv/credentials:ro"
+    depends_on:
+      - local-secrets
+      - postgres
+
+  # Run tests
+  test:
+    build:
+      context: .
+      dockerfile: docker/test.dockerfile
+      args:
+        <<: *build_args
+    environment:
+      ENVIRONMENT: testing
+    entrypoint: gradle clean test
+    image: neerazz/javaSamples-test
+    container_name: javaSamples-test
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./neeraj/:/app/neeraj
+      - .:/app/source
+    working_dir: /app/source
+    ports:
+      - 8080:8080
+
+  local-secrets:
+    image: "neerazz/local-secret-distributor:latest"
+    environment:
+      DISTRIBUTIONS: "k8s_security-security-utils-dev"
+    volumes:
+      - "./credentials:/neeraj/etc/priv/k8s_security-security-utils-dev"
+      - "~/.vault-token:/root/hosthomedir/.vault-token"
+      - "/var/run/docker.sock:/run/docker.sock"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.2.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-server:7.2.1
+    hostname: kafka
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
+      CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka:29092
+      CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:18081
+      CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
+      CONFLUENT_METRICS_ENABLE: "true"
+      CONFLUENT_SUPPORT_CUSTOMER_ID: "anonymous"
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.2.1
+    container_name: schema-registry
+    hostname: schema-registry
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:29092
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:18081
+    ports:
+      - 18081:18081
+    depends_on:
+      - kafka
+
+  kafka-tools:
+    image: confluentinc/cp-kafka:7.2.1
+    hostname: kafka-tools
+    container_name: kafka-tools
+    command: [ "tail", "-f", "/dev/null" ]
+    network_mode: "host"
+
+  control-center:
+    image: confluentinc/cp-enterprise-control-center:7.2.1
+    hostname: control-center
+    container_name: control-center
+    depends_on:
+      - zookeeper
+      - kafka
+      - kafka-tools
+      - schema-registry
+    ports:
+      - "9021:9021"
+    environment:
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:29092'
+      CONTROL_CENTER_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schema-registry:18081"
+      CONTROL_CENTER_REPLICATION_FACTOR: 1
+      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
+      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
+      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+      PORT: 9021
+
+  postgres:
+    image: postgres:12
+    container_name: postgres
+    healthcheck:
+      test: healthcheck
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    ports:
+      - "3432:5432"
+      - "9515:9515"
+    environment:
+      DATABASES_TO_CREATE: test_db
+      DEPLOY_USER_PASSWORD: DeployUserPassword123!
+      APP_USER_PASSWORD: AppUserPassword123!
+      APPRO_USER_PASSWORD: Password123!
+      PG_POSTGRES_PASSWORD: Password123!
+
+  migrate:
+    image: neerazz/migrations
+    entrypoint: wait-and-migrate
+    volumes:
+      - .:/app
+    environment:
+      - HOST=vulnerability-management-psql
+      - PORT=5432
+    depends_on:
+      - psql

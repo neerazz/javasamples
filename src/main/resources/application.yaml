@@ -1,0 +1,71 @@
+# JPA specific configs
+spring:
+  application:
+    name: java-preparation
+  profiles:
+    active: ${ENV_NAME:local}
+  config:
+    import: optional:file:/neeraj/etc/wf-config.yaml
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: ${java-samples.db.dd-auto:validate}
+    properties:
+      hibernate:
+        dialect: ${java-samples.db.dialect}
+        default_schema: ${java-samples.db.dbSchema:public}
+  thymeleaf:
+    enabled: true
+    suffix: .html
+  datasource:
+    url: ${java-samples.db.url}
+    driverClassName: ${java-samples.db.driverClassName}
+    username: ${java-samples.db.username}
+    password: ${java-samples.db.password}
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+
+management:
+  endpoints.web.exposure.include: [ info, health, loggers, env ]
+  endpoint:
+    health:
+      show-components: always
+      show-details: always
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState, db, kafka
+
+# Kafka properties
+kafka:
+  vmsIssuesTopic: java-samples_emp_issues
+  vmsAssetTopic: java-samples_emp_asset
+  vmsSecurityControlsTopic: java-samples_emp_controls
+  vmsSecuritySubCategoriesTopic: java-samples_emp_control_sub_categories
+  vmsSecurityControlFindingsTopic: java-samples_emp_control_findings
+  vmsVulnerabilityTopic: java-samples_emp_vulnerabilities
+  vmsVulnerabilityFindingTopic: java-samples_emp_vulnerability_finding
+
+# Logging properties
+logging:
+  level:
+    root: INFO
+    com.wayfair.security: INFO
+    com.zaxxer.hikari.HikariConfig: DEBUG
+
+# Bigquery property
+bigQuery:
+  projectId: wf-gcp-us-ae-sec-prod
+  datasetId: vulnerability_management
+  credentialsJson: ${inst-vulnerability-mnt-svc}
+  assetsTable: vms_assets_latest
+  vulnerabilityTable: vms_vulnerability_latest
+  vulnerabilityFindingsTable: vms_vulnerability_finding_latest
+  vulnerabilityFindingsTableRead: vms_vulnerability_finding_unique
+  controlsTable: vms_controls
+  controlsFindingsTable: vms_control_findings_latest
+  issuesTable: vms_issues_latest

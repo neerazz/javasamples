@@ -49,7 +49,6 @@ dependencies {
 //    Dependencies for Google Bigquery
     implementation 'com.google.cloud:google-cloud-bigquery:2.19.1'
 
-
 //    Dependencies for Kafka
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'io.confluent:kafka-avro-serializer:7.2.1'

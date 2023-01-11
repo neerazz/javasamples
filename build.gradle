@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.1-SNAPSHOT'
+    id 'org.springframework.boot' version '2.7.8-SNAPSHOT'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
@@ -7,6 +7,12 @@ plugins {
 group = 'com.neeraj'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 
 repositories {
     mavenCentral()
@@ -31,6 +37,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     implementation "org.junit.jupiter:junit-jupiter-api"
+
+    //    UI Dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'com.github.darrachequesne:spring-data-jpa-datatables:5.2.0'
+
+    //    Dependencies for spring validator
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 test {

@@ -1,8 +1,9 @@
 package com.neeraj.preperation.hibernate;
 
+import com.neeraj.preperation.jackson.JpaList2JsonConverter;
+
 import javax.persistence.*;
-import java.util.*;
-import java.io.*;
+import java.util.List;
 
 @Entity
 public class EmployeeEntity {
@@ -21,4 +22,7 @@ public class EmployeeEntity {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     AddressEntity addressEntity;
     String state;
+
+    @Convert(converter = JpaList2JsonConverter.class)
+    List<String> tags;
 }

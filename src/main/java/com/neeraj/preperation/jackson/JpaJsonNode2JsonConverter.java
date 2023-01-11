@@ -2,7 +2,7 @@ package com.neeraj.preperation.jackson;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.wayfair.security.vms.aggregator.utils.JsonHelper;
+import com.neeraj.preperation.utils.JsonHelper;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

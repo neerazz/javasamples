@@ -1,10 +1,5 @@
 package com.neeraj.preperation.utils;
 
-import com.wayfair.security.vms.aggregator.model.avro.*;
-import com.wayfair.security.vms.aggregator.model.entity.*;
-import com.wayfair.security.vms.aggregator.model.entity.VMSControlSubCategories;
-import io.confluent.kafka.schemaregistry.avro.AvroSchemaUtils;
-import org.apache.avro.Schema;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -40,30 +35,4 @@ public class CommonUtils {
         return hexString.toString();
     }
 
-    private static String getSchema(Object inputObj) {
-        Schema schema = AvroSchemaUtils.getSchema(inputObj, true, true, true);
-        return schema.toString();
-    }
-
-    public static void main(String[] args) {
-        var vmsControls = getSchema(new VMSControls());
-        var vmsControlSubCategories = getSchema(new VMSControlSubCategories());
-        var vmsControlFindings = getSchema(new VMSControlFindings());
-        var vmsVulnerabilities = getSchema(new VMSVulnerabilityEntity());
-        var findings = getSchema(new VMSVulnerabilityFindingEntity());
-        var vmsIssues = getSchema(new VMSIssues());
-        System.out.println("VMSControls = " + vmsControls);
-        System.out.println("VMSControlSubCategories = " + vmsControlSubCategories);
-        System.out.println("VMSControlFindings = " + vmsControlFindings);
-        System.out.println("VMSVulnerabilityEntity = " + vmsVulnerabilities);
-        System.out.println("VMSVulnerabilityFindingEntity = " + findings);
-        System.out.println("VMSIssues = " + vmsIssues);
-        System.out.println(getSchema(new VMSControlsAvro()).replace("\"", "\\" + "\""));
-        System.out.println(getSchema(new VMSControlSubCategoriesAvro()).replace("\"", "\\" + "\""));
-        System.out.println(getSchema(new VMSControlFindingsAvro()).replace("\"", "\\" + "\""));
-        System.out.println(getSchema(new VMSVulnerabilityAvro()).replace("\"", "\\" + "\""));
-        System.out.println(getSchema(new VMSVulnerabilityFindingAvro()).replace("\"", "\\" + "\""));
-        System.out.println(getSchema(new VMSControlFindingsAvro()).replace("\"", "\\" + "\""));
-        System.out.println(getSchema(new VMSIssuesAvro()).replace("\"", "\\" + "\""));
-    }
 }

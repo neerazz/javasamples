@@ -44,8 +44,32 @@ dependencies {
 
     //    Dependencies for spring validator
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
+//    Dependencies for Google Bigquery
+    implementation 'com.google.cloud:google-cloud-bigquery:2.19.1'
+
+
+//    Dependencies for Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'io.confluent:kafka-avro-serializer:7.2.1'
+    implementation 'org.apache.avro:avro:1.11.0'
+    implementation 'org.apache.avro:avro-compiler:1.11.0'
+
+    implementation 'org.modelmapper:modelmapper:3.1.1'
 }
 
 test {
     useJUnitPlatform()
+}
+
+// Source sets to pick up Avro classes within IDEs and builds.
+sourceSets {
+    main {
+        java {
+            srcDirs = [
+                    "src/main/java",
+                    "build/generated-main-avro-java"]
+        }
+    }
 }

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.wayfair.security.vms.aggregator.exceptions.JSONConversionException;
+import com.neeraj.preperation.spring.exceptions.JSONConversionException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package com.neeraj.preperation.utils;
 
-import com.wayfair.security.vms.aggregator.exceptions.InvalidAPICallException;
+import com.neeraj.preperation.spring.exceptions.InvalidAPICallException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Random;
@@ -26,7 +26,7 @@ public class RetryUtil {
                 return callFunction.apply(input);
             } catch (Exception e) {
                 exception = e;
-                int waitDuration = RANDOM.nextInt(1, 20) * retries * waitTimeInSeconds * 60 * 1000;
+                int waitDuration = RANDOM.nextInt(50) * retries * waitTimeInSeconds * 60 * 1000;
                 log.warn("There was an error while making an API call for {} time.", retries + 1);
                 log.warn("API call will be retried again after {} seconds.", waitDuration);
                 try {

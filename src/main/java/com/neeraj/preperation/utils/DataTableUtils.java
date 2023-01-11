@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class DataTableUtils {
 
@@ -22,7 +23,7 @@ public class DataTableUtils {
         return groupByCount.parallelStream()
                 .map(item -> new String[]{getValue(item[0], Object::toString, ""), getValue(item[1], Object::toString, "0")})
                 .map(item -> new SearchPanes.Item(item[0], item[0], Long.parseLong(item[1]), Long.parseLong(item[1])))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /**

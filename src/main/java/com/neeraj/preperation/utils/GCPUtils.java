@@ -4,8 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.wayfair.security.vms.aggregator.model.GoogleCredentialsProperties;
-import com.wayfair.security.vms.aggregator.tools.bigquery.exception.BigQueryConnectionException;
+import com.neeraj.preperation.spring.properties.GoogleCredentialsProperties;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
@@ -40,12 +39,12 @@ public class GCPUtils {
             e.printStackTrace();
             log.error("Unable to read and parse Google account Json Property");
             log.error("Error Details : {}", e.getMessage());
-            throw new BigQueryConnectionException("Unable to read and parse Google account Json Property. Error Details : " + e.getLocalizedMessage());
+            throw new RuntimeException("Unable to read and parse Google account Json Property. Error Details : " + e.getLocalizedMessage());
         } catch (IOException e) {
             e.printStackTrace();
             log.error("Unable to create Google credentials from Property Json.");
             log.error("Error Details : {}", e.getMessage());
-            throw new BigQueryConnectionException("Unable to create Google credentials from Property Json. Error Details : " + e.getLocalizedMessage());
+            throw new RuntimeException("Unable to create Google credentials from Property Json. Error Details : " + e.getLocalizedMessage());
         }
     }
 

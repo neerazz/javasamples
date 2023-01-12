@@ -1,6 +1,0 @@
----
-wfconfig:
-  resources:
-    WF_TELEGRAF_PORT: '8094' # dev's InfluxDB metrics receiver port
-    WF_HOSTNAME: 'fake-dev-hostname'
-    WF_LOCATION: 'fake-dc'

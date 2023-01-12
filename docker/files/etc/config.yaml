@@ -1,0 +1,6 @@
+---
+config:
+  resources:
+    TELEGRAF_PORT: '8094' # dev's InfluxDB metrics receiver port
+    HOSTNAME: 'fake-dev-hostname'
+    LOCATION: 'fake-dc'

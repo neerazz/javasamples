@@ -2,11 +2,11 @@
 
 set -eo pipefail
 
-WF_CREDENTIALS_PATH="${WF_CREDENTIALS_PATH:-/wayfair/etc/priv/credentials}"
-if [ -f "$WF_CREDENTIALS_PATH/envvars" ]
+CREDENTIALS_PATH="${CREDENTIALS_PATH:-/neeraj/etc/priv/credentials}"
+if [ -f "$CREDENTIALS_PATH/envvars" ]
 then
   echo "Loading Vault secrets as Environment variables"
-  source "$WF_CREDENTIALS_PATH/envvars"
+  source "$CREDENTIALS_PATH/envvars"
 fi
 
 echo "Environment variables for Datadog agent:"
@@ -14,7 +14,7 @@ echo "  DD_TRACE_ENABLED: ${DD_TRACE_ENABLED:-true}"
 echo "  DD_PROFILING_ENABLED: ${DD_PROFILING_ENABLED:-false}"
 echo "  DD_JMXFETCH_ENABLED: ${DD_JMXFETCH_ENABLED:-true}"
 echo "  DD_SERVICE: $DD_SERVICE"
-echo "  DD_WF_HOSTNAME: $DD_WF_HOSTNAME"
+echo "  DD_WF_HOSTNAME: $DD_HOSTNAME"
 echo "  DD_VERSION: $DD_VERSION"
 echo "  DD_AGENT_HOST: ${DD_AGENT_HOST:-localhost}"
 echo "  DD_TRACE_AGENT_PORT: ${DD_TRACE_AGENT_PORT:-8126}"
@@ -27,7 +27,7 @@ if [ "$ENVIRONMENT" = "dev" ] || [ "$ENVIRONMENT" = "prod" ]; then
   exec \
       java \
       -javaagent:/opt/datadog/dd-java-agent.jar \
-      -Ddd.trace.global.tags=wf_hostname:"$DD_WF_HOSTNAME" \
+      -Ddd.trace.global.tags=hostname:"$DD_HOSTNAME" \
       -XX:MinRAMPercentage=50.0 \
       -XX:MaxRAMPercentage=80.0 \
       -XshowSettings:vm \

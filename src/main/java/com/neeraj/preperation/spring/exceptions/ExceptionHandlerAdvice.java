@@ -16,7 +16,7 @@ public class ExceptionHandlerAdvice {
         return "There was an error Converting to Json";
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(NullPointerException.class)
     public void handleNullPointerException(String message) {
         System.out.println(message);

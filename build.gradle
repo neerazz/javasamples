@@ -1,12 +1,12 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.8-SNAPSHOT'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '3.0.3'
+    id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
 }
 
 group = 'com.neeraj'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '19'
 
 configurations {
     compileOnly {
@@ -16,8 +16,7 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-    maven { url 'https://repo.spring.io/snapshot' }
+    maven { url 'https://packages.confluent.io/maven/' }
 }
 
 dependencies {
@@ -51,13 +50,13 @@ dependencies {
 
 
 //    Dependencies for Google Bigquery
-    implementation 'com.google.cloud:google-cloud-bigquery:2.19.1'
+    implementation 'com.google.cloud:google-cloud-bigquery:2.23.0'
 
 //    Dependencies for Kafka
     implementation 'org.springframework.kafka:spring-kafka'
-    implementation 'io.confluent:kafka-avro-serializer:7.2.1'
-    implementation 'org.apache.avro:avro:1.11.0'
-    implementation 'org.apache.avro:avro-compiler:1.11.0'
+    implementation 'io.confluent:kafka-avro-serializer:7.3.1'
+    implementation 'org.apache.avro:avro:1.11.1'
+    implementation 'org.apache.avro:avro-compiler:1.11.1'
 
     implementation 'org.modelmapper:modelmapper:3.1.1'
 }

@@ -1,8 +1,0 @@
----
-wfconfig:
-  resources:
-    WF_GELFRECEIVER: 'gelf-proxy.service.intraiad1.devconsul.csnzoo.com'
-    WF_TELEGRAF_SERVICE: 'dev.telegraf.service.bo1.csnzoo.com' # dev's InfluxDB metrics receiver host
-    WF_TELEGRAF_PORT: '8094' # dev's InfluxDB metrics receiver port
-    WF_HOSTNAME: 'fake-dev-hostname'
-    WF_LOCATION: 'fake-dc'

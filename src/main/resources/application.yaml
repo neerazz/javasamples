@@ -3,13 +3,13 @@ spring:
   application:
     name: java-preparation
   profiles:
-    active: ${ENV_NAME:local}
+    active: local
   config:
     import: optional:file:/neeraj/etc/config.yaml
   jpa:
-    show-sql: false
+    show-sql: ${java-samples.db.show-sql:false}
     hibernate:
-      ddl-auto: ${java-samples.db.dd-auto:validate}
+      ddl-auto: ${java-samples.db.dd-auto:create}
     properties:
       hibernate:
         dialect: ${java-samples.db.dialect}

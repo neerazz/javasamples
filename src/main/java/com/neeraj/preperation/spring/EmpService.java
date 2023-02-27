@@ -1,6 +1,6 @@
 package com.neeraj.preperation.spring;
 
-import com.neeraj.preperation.hibernate.EmployeeEntity;
+import com.neeraj.preperation.hibernate.entity.EmployeeEntity;
 import com.neeraj.preperation.jackson.model.EmployeeDto;
 import com.neeraj.preperation.java.exceptions.EmployeeNotFoundException;
 import com.neeraj.preperation.spring.jpa.EmpRepository;

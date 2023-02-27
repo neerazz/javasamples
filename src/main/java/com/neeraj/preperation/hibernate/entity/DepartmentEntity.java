@@ -1,14 +1,9 @@
-package com.neeraj.preperation.hibernate;
+package com.neeraj.preperation.hibernate.entity;
 
-import com.neeraj.preperation.java.oops.imutability.Employee;
+import jakarta.persistence.*;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import java.util.*;
-import java.io.*;
+import java.util.Set;
 
 /**
  * Created on:  Jun 02, 2021
@@ -17,6 +12,7 @@ import java.io.*;
 
 @Data
 @Entity
+@Table
 public class DepartmentEntity {
 
     @Id

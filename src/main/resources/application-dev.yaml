@@ -1,25 +1,21 @@
 # JPA specific configs
 spring:
   application:
-    name: java-samples-dev
+    name: java-preparation-dev
   profiles:
-    active: ${ENV_NAME:local}
+    active: dev
   h2:
     console:
       enabled: false
       path: /h2-console
 
-server:
-  port: 1007
-
 java-samples:
   db:
-    url: jdbc:postgresql://localhost:1432/security-vms
+    url: jdbc:postgresql://localhost:3432/test_db
     username: postgres
-    password: my-secret-pw
+    password: AppUserPassword123!
     dialect: org.hibernate.dialect.PostgreSQLDialect
     driverClassName: org.postgresql.Driver
-    ddl-auto: update
     show-sql: true
     dbSchema: public
     dd-auto: update

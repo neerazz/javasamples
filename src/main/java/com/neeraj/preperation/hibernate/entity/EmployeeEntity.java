@@ -1,11 +1,12 @@
-package com.neeraj.preperation.hibernate;
+package com.neeraj.preperation.hibernate.entity;
 
 import com.neeraj.preperation.jackson.JpaList2JsonConverter;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table
 public class EmployeeEntity {
 
     @Id

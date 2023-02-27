@@ -1,9 +1,7 @@
 # JPA specific configs
 spring:
   application:
-    name: java-samples-local
-  profiles:
-    active: local
+    name: java-preparation-local
   h2:
     console:
       enabled: true
@@ -14,12 +12,12 @@ server:
 
 java-samples:
   db:
-    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password:
-    dialect: org.hibernate.dialect.H2Dialect
-    driverClassName: org.h2.Driver
-    ddl-auto: update
     show-sql: true
     dbSchema: public
     dd-auto: update
+
+# Kafka properties
+kafka:
+  bootstrapServers: localhost:9092
+  schemaRegistryUrl: http://localhost:18081
+  consumerGroupId: consumer-g1

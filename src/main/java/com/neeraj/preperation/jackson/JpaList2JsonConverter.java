@@ -2,9 +2,9 @@ package com.neeraj.preperation.jackson;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.neeraj.preperation.utils.JsonHelper;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 import java.util.List;
 
 @Converter(autoApply = true)

@@ -37,13 +37,14 @@ dependencies {
     implementation 'org.postgresql:postgresql'
     runtimeOnly 'com.h2database:h2'
 
+//    Dependencies for Java 17+
+    implementation 'javax.persistence:javax.persistence-api:2.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation "org.junit.jupiter:junit-jupiter-api"
 
     //    UI Dependencies
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'com.github.darrachequesne:spring-data-jpa-datatables:5.2.0'
 
     //    Dependencies for spring validator
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -58,7 +59,19 @@ dependencies {
     implementation 'org.apache.avro:avro:1.11.1'
     implementation 'org.apache.avro:avro-compiler:1.11.1'
 
+//    Other Dependencies
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
     implementation 'org.modelmapper:modelmapper:3.1.1'
+
+// mandatory dependencies for using Spock
+    testImplementation 'org.codehaus.groovy:groovy-all:3.0.13'
+    testImplementation('org.spockframework:spock-core:2.3-groovy-3.0')
+    testImplementation('org.spockframework:spock-spring:2.3-groovy-3.0')
+
+// optional dependencies for using Spock
+    testImplementation "org.hamcrest:hamcrest-core:2.2"   // only necessary if Hamcrest matchers are used
+    testRuntimeOnly 'net.bytebuddy:byte-buddy:1.12.18' // allows mocking of classes (in addition to interfaces)
+    testRuntimeOnly "org.objenesis:objenesis:3.2"
 }
 
 test {

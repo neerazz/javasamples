@@ -25,7 +25,7 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - "8080:1007"
+      - "8080:8080"
     volumes:
       - "./credentials:/neeraj/etc/priv/credentials:ro"
     depends_on:

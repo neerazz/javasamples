@@ -1,6 +1,6 @@
 package com.neeraj.preperation.kafka;
 
-import com.neeraj.preperation.hibernate.EmployeeEntity;
+import com.neeraj.preperation.hibernate.entity.EmployeeEntity;
 import com.neeraj.preperation.spring.properties.KafkaProperties;
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;

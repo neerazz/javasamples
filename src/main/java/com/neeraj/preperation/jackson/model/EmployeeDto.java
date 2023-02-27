@@ -3,8 +3,8 @@ package com.neeraj.preperation.jackson.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.neeraj.preperation.hibernate.AddressEntity;
-import com.neeraj.preperation.hibernate.DepartmentEntity;
+import com.neeraj.preperation.hibernate.entity.AddressEntity;
+import com.neeraj.preperation.hibernate.entity.DepartmentEntity;
 import lombok.Data;
 
 @Data

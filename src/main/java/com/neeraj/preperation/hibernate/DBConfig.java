@@ -1,15 +1,12 @@
-package com.neeraj.preperation.spring.jpa;
+package com.neeraj.preperation.hibernate;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.sql.DataSource;
-import java.util.*;
-import java.io.*;
 
 /**
  * Created on:  Jun 02, 2021
@@ -17,7 +14,6 @@ import java.io.*;
  */
 
 @Configuration
-@EnableJpaRepositories
 public class DBConfig {
 
     @Bean
@@ -30,8 +26,8 @@ public class DBConfig {
         config.setDriverClassName("org.h2.Driver");
         config.addDataSourceProperty("url", url);
         config.setJdbcUrl(url);
-        config.addDataSourceProperty("user", "admin");
-        config.addDataSourceProperty("password", "admin");
+        config.addDataSourceProperty("user", "sa");
+        config.addDataSourceProperty("password", "password");
         config.addDataSourceProperty("cachePrepStmts", true);
         config.addDataSourceProperty("prepStmtCacheSize", 250);
         config.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);

@@ -13,21 +13,26 @@ x-build-args: &build_args
   OPENJDK_JRE_VERSION: 2022.04.26
 
 services:
-  # Application entrypoint
+  # Application entrypoint, to run tests
   service:
     build:
       context: .
-      dockerfile: docker/dev.dockerfile
+      dockerfile: docker/test.dockerfile
       args:
         <<: *build_args
-    image: neerazz/javaSamples-dev
-    container_name: javaSamples-dev
+    environment:
+      ENVIRONMENT: testing
+    entrypoint: gradle clean test
+    image: neerazz/javaSamples-test
+    container_name: javaSamples-test
     stdin_open: true
     tty: true
-    ports:
-      - "8080:1007"
     volumes:
-      - "./credentials:/neeraj/etc/priv/credentials:ro"
+      - ./neeraj/:/app/neeraj
+      - .:/app/source
+    working_dir: /app/source
+    ports:
+      - 8080:8080
     depends_on:
       - local-secrets
       - postgres

@@ -5,7 +5,7 @@ spring:
   profiles:
     active: ${ENV_NAME:local}
   config:
-    import: optional:file:/neeraj/etc/wf-config.yaml
+    import: optional:file:/neeraj/etc/config.yaml
   jpa:
     show-sql: false
     hibernate:
@@ -59,13 +59,13 @@ logging:
 
 # Bigquery property
 bigQuery:
-  projectId: wf-gcp-us-ae-sec-prod
-  datasetId: vulnerability_management
-  credentialsJson: ${inst-vulnerability-mnt-svc}
-  assetsTable: vms_assets_latest
-  vulnerabilityTable: vms_vulnerability_latest
-  vulnerabilityFindingsTable: vms_vulnerability_finding_latest
-  vulnerabilityFindingsTableRead: vms_vulnerability_finding_unique
-  controlsTable: vms_controls
-  controlsFindingsTable: vms_control_findings_latest
-  issuesTable: vms_issues_latest
+  projectId: project-prod
+  datasetId: ems
+  credentialsJson: ${ems-svc}
+  assetsTable: ems_latest
+  vulnerabilityTable: ems_vulnerability_latest
+  vulnerabilityFindingsTable: ems_vulnerability_finding_latest
+  vulnerabilityFindingsTableRead: ems_vulnerability_finding_unique
+  controlsTable: ems_controls
+  controlsFindingsTable: ems_control_findings_latest
+  issuesTable: ems_issues_latest

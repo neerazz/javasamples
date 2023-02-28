@@ -2,6 +2,9 @@
 
 ### Profile selections:
 
-| Name      | Database |  Cache |
-| ----------- | ----------- | ----------- |
-| local      | H2       | ConcurrentHashMap|
+| Name  | Database | Cache             |
+|-------|----------|-------------------|
+| local | H2       | ConcurrentHashMap |
+| dev   | Postgres | ConcurrentHashMap |
+
+### [Kubernetes Setup](k8s.md)

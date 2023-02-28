@@ -23,8 +23,8 @@ services:
     environment:
       ENVIRONMENT: testing
     entrypoint: gradle clean test
-    image: neerazz/javaSamples-test
-    container_name: javaSamples-test
+    image: neerazz/javaSamples
+    container_name: javaSamples
     stdin_open: true
     tty: true
     volumes:

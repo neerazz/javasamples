@@ -23,8 +23,8 @@ services:
     environment:
       ENVIRONMENT: dev
       JDBC_URL: jdbc:postgresql://postgresdb:5432/test_db
-    image: neerazz/javasamples-dev
-    container_name: javaSamples-dev
+    image: neerazz/javasamples
+    container_name: javaSamples
     stdin_open: true
     tty: true
     ports:

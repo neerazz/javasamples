@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javasamples
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: javasamples
+  template:
+    metadata:
+      labels:
+        app: javasamples
+    spec:
+      containers:
+        - name: app
+          image: neerazz/javasamples
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ENVIRONMENT
+              value: test
+            - name: JDBC_URL
+              value: jdbc:postgresql://postgresdb:5432/test_db
+          imagePullPolicy: Always

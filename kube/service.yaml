@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: javasamples
+spec:
+  selector:
+    app: javasamples
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer

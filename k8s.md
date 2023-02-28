@@ -216,7 +216,8 @@ Similarly, to query the state of your applications, you retrieve Kubernetes reso
 In practice, you do all these interactions with _**kubectl**_ - your primary client for the Kubernetes API.
 
 In the remainder of this section, you will define a set of Kubernetes resources that describe
-your [JavaSample application](https://github.com/neerazz/javasamples), and in the end, you will submit them to your
+your [JavaSample application](https://github.com/neerazz/javasamples/tree/spring_boot_with_docker_k8), and in the end,
+you will submit them to your
 Kubernetes cluster.
 
 The resources that you will use are
@@ -242,10 +243,20 @@ The purpose of this folder is to hold all the Kubernetes YAML files that you wil
 
 - The first Kubernetes resource is
   a [Deployment](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#deployment-v1-apps)
-    - A Deployment creates and runs your [JavaSample application](https://github.com/neerazz/javasamples) containers and
-      keeps them alive.
-    - [Here is the definition of a Deployment](kube/deployment.yaml).
+  - A Deployment creates and runs
+    your [JavaSample application](https://github.com/neerazz/javasamples/tree/spring_boot_with_docker_k8) containers and
+    keeps them alive.
+  - [Here is the definition of a Deployment](kube/deployment.yaml).
 - Next resource that you need
   is  [Service](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#service-v1-core).
-    - To expose your [JavaSample application](https://github.com/neerazz/javasamples) you need Service.
-    - [Here is the definition of a Service](kube/service.yaml).
+  - To expose your [JavaSample application](https://github.com/neerazz/javasamples/tree/spring_boot_with_docker_k8) you
+    need Service.
+  - [Here is the definition of a Service](kube/service.yaml).
+  - ![Service Flow](docs/images/k8s_service.svg "Service Flow")
+- Submit your resource definitions to Kubernetes with the following command
+  - ~~~kubernetes
+    kubectl apply -f kube 
+    ~~~ 
+  - **Note:** _This command submits all the YAML files in the kube directory to Kubernetes._
+  - > The -f flag accepts either a single filename or a directory. In the latter case, all YAML files in the directory
+    are submitted.

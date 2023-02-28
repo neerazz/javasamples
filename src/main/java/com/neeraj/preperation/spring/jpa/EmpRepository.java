@@ -12,4 +12,6 @@ public interface EmpRepository extends JpaRepository<EmployeeEntity, String> {
     List<EmployeeEntity> findByFirstName(String firstName);
 
     List<EmployeeEntity> findByFirstNameAndLastName(String firstName, String lastName);
+
+    List<EmployeeEntity> findByState(String state);
 }

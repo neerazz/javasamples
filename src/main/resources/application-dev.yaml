@@ -2,18 +2,15 @@
 spring:
   application:
     name: java-preparation-dev
-  profiles:
-    active: dev
   h2:
     console:
       enabled: false
-      path: /h2-console
 
 java-samples:
   db:
-    url: jdbc:postgresql://localhost:3432/test_db
+    url: ${JDBC_URL}
     username: postgres
-    password: AppUserPassword123!
+    password: Password123!
     dialect: org.hibernate.dialect.PostgreSQLDialect
     driverClassName: org.postgresql.Driver
     show-sql: true

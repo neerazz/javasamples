@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,5 +38,24 @@ public class EmpService {
     public EmployeeDto getByEmpId(String empId) {
         var empEntity = empRepository.findById(empId).orElseThrow(() -> new EmployeeNotFoundException(empId));
         return MapperUtil.map(empEntity, EmployeeDto.class);
+    }
+
+    public List<EmployeeDto> getEmployee(String name, String state) {
+        List<EmployeeEntity> employees = new ArrayList<>();
+        if (name != null && name.length() > 0) {
+            employees.addAll(searchByName(name, name));
+        }
+        if (state != null && state.length() > 0 && state.length() <= 2) {
+            employees.addAll(empRepository.findByState(state));
+        }
+        return employees.stream()
+                .map(entity -> MapperUtil.map(entity, EmployeeDto.class))
+                .toList();
+    }
+
+    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
+        var entity = MapperUtil.map(employeeDto, EmployeeEntity.class);
+        var savedEntity = empRepository.save(entity);
+        return MapperUtil.map(savedEntity, EmployeeDto.class);
     }
 }

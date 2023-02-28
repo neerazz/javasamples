@@ -3,7 +3,7 @@ spring:
   application:
     name: java-preparation
   profiles:
-    active: local
+    active: ${ENVIRONMENT:local}
   config:
     import: optional:file:/neeraj/etc/config.yaml
   jpa:
@@ -69,3 +69,12 @@ bigQuery:
   controlsTable: ems_controls
   controlsFindingsTable: ems_control_findings_latest
   issuesTable: ems_issues_latest
+
+# Swagger Properties
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  show-actuator: true

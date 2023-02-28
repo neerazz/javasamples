@@ -26,8 +26,6 @@ echo "Running Service with active profile: $ENVIRONMENT"
 if [ "$ENVIRONMENT" = "dev" ] || [ "$ENVIRONMENT" = "prod" ]; then
   exec \
       java \
-      -javaagent:/opt/datadog/dd-java-agent.jar \
-      -Ddd.trace.global.tags=hostname:"$DD_HOSTNAME" \
       -XX:MinRAMPercentage=50.0 \
       -XX:MaxRAMPercentage=80.0 \
       -XshowSettings:vm \

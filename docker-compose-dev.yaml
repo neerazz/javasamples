@@ -7,10 +7,10 @@ x-build-args: &build_args
   GROUP: www
   UID: 1001
   USER: neeraj
-  GRADLE_OPENJDK_IMAGE_NAME: gradle7-openjdk17
-  GRADLE_OPENJDK_VERSION: 2022.04.26
-  OPENJDK_JRE_IMAGE_NAME: openjdk17-jdk
-  OPENJDK_JRE_VERSION: 2022.04.26
+  GRADLE_OPENJDK_IMAGE_NAME: gradle
+  GRADLE_OPENJDK_VERSION: 7-jdk19-focal
+  OPENJDK_JRE_IMAGE_NAME: openjdk
+  OPENJDK_JRE_VERSION: 19-oracle
 
 services:
   # Application entrypoint
@@ -20,7 +20,10 @@ services:
       dockerfile: docker/dev.dockerfile
       args:
         <<: *build_args
-    image: neerazz/javaSamples-dev
+    environment:
+      ENVIRONMENT: dev
+      JDBC_URL: jdbc:postgresql://postgresdb:5432/test_db
+    image: neerazz/javasamples-dev
     container_name: javaSamples-dev
     stdin_open: true
     tty: true
@@ -29,18 +32,8 @@ services:
     volumes:
       - "./credentials:/neeraj/etc/priv/credentials:ro"
     depends_on:
-      - local-secrets
       - postgres
       - control-center
-
-  local-secrets:
-    image: "neerazz/local-secret-distributor:latest"
-    environment:
-      DISTRIBUTIONS: "k8s_security-security-utils-dev"
-    volumes:
-      - "./credentials:/neeraj/etc/priv/k8s_security-security-utils-dev"
-      - "~/.vault-token:/root/hosthomedir/.vault-token"
-      - "/var/run/docker.sock:/run/docker.sock"
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.2.1
@@ -120,7 +113,7 @@ services:
 
   postgres:
     image: postgres:12
-    container_name: postgres
+    container_name: postgresdb
     healthcheck:
       test: healthcheck
       interval: 30s
@@ -132,7 +125,10 @@ services:
       - "9515:9515"
     environment:
       DATABASES_TO_CREATE: test_db
+      POSTGRES_DB: test_db
       DEPLOY_USER_PASSWORD: DeployUserPassword123!
       APP_USER_PASSWORD: AppUserPassword123!
       APPRO_USER_PASSWORD: Password123!
-      PG_POSTGRES_PASSWORD: Password123!
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Password123!
+      POSTGRES_HOST_AUTH_METHOD: trust

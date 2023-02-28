@@ -3,16 +3,10 @@ ARG GRADLE_OPENJDK_VERSION
 ARG OPENJDK_JRE_IMAGE_NAME
 ARG OPENJDK_JRE_VERSION
 ARG GRADLE_OPTS
-FROM ${GRADLE_OPENJDK_IMAGE_NAME}:${GRADLE_OPENJDK_VERSION} as prepare
+ARG ENVIRONMENT
 
+FROM ${GRADLE_OPENJDK_IMAGE_NAME}:${GRADLE_OPENJDK_VERSION} as build
 WORKDIR /app/build
-
-COPY build.gradle settings.gradle gradlew ./
-ENV GRADLE_OPTS -Dorg.gradle.jvmargs=-Xmx2048M -Dorg.gradle.daemon=false
-# docker layer caching for dependencies
-RUN gradle resolveNonTestDependencies --no-daemon --info
-FROM prepare as build
-
 COPY . .
 RUN gradle build -x test --no-daemon --info
 
@@ -24,9 +18,9 @@ ARG GROUP="www"
 ARG UID="1001"
 ARG USER="neeraj"
 
-ARG wf_version
+ARG VERSION
 ARG JAR_FILE
-ENV version=${wf_version}
+ENV version=${VERSION}
 ENV GID ${GID}
 ENV GROUP ${GROUP}
 ENV UID ${UID}

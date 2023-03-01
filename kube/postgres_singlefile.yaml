@@ -1,0 +1,112 @@
+#https://www.containiq.com/post/deploy-postgres-on-kubernetes
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresdb-config
+  labels:
+    app: postgresdb
+data:
+  POSTGRES_DB: test_db
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: Password123!
+  POSTGRES_HOST_AUTH_METHOD: trust
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgresdb-pv  # Sets PV's name
+  labels:
+    type: local  # Sets PV's type to local
+    app: postgresdb
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi # Sets PV Volume
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgresdb-pvc-claim # Sets PV's name
+  labels:
+    app: postgresdb
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany  # Sets read and write access
+  resources:
+    requests:
+      storage: 1Gi  # Sets volume size
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresdb
+spec:
+  selector:
+    matchLabels:
+      app: postgresdb
+  template:
+    metadata:
+      labels:
+        app: postgresdb
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: postgresdb
+          image: postgres:12
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432   # Exposes container port
+          envFrom:
+            - configMapRef:
+                name: postgresdb-config
+          env:
+            - name: POD_IP
+              valueFrom: { fieldRef: { fieldPath: status.podIP } }
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+          livenessProbe:
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+            failureThreshold: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready --host $POD_IP ||  if [[ $(psql -qtAc --host $POD_IP 'SELECT pg_is_in_recovery') != "f" ]]; then  exit 0 else; exit 1; fi
+          readinessProbe:
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready --host $POD_IP
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgresdb-pvc-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresdb # Sets service name
+  labels:
+    app: postgresdb # Labels and Selectors
+spec:
+  type: NodePort # Sets service type
+  ports:
+    - name: tcp
+      port: 5432 # Sets port to run the postgres application
+      targetPort: 5432
+    - name: admin
+      port: 9515
+      targetPort: 9515
+  selector:
+    app: postgresdb

@@ -20,6 +20,6 @@ spec:
             - containerPort: 8080
           env:
             - name: ENVIRONMENT
-              value: test
+              value: dev
             - name: JDBC_URL
               value: jdbc:postgresql://postgresdb:5432/test_db

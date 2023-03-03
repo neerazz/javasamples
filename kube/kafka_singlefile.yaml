@@ -1,0 +1,52 @@
+--- # Deployment for kafka
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+        - name: kafka
+          image: wurstmeister/kafka
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 9092
+          env:
+            - name: KAFKA_ADVERTISED_PORT
+              value: "30718"
+            - name: KAFKA_ADVERTISED_HOST_NAME
+              value: 192.168.1.240
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: zoo:2181
+            - name: KAFKA_BROKER_ID
+              value: "0"
+            - name: KAFKA_CREATE_TOPICS
+              value: "java-samples_emp_issues:2:1,java-samples_emp_asset:1:1,java-samples_emp_controls:1:1,java-samples_emp_control_sub_categories:1:1,java-samples_emp_control_findings:1:1,java-samples_emp_vulnerabilities:1:1,java-samples_emp_vulnerability_finding:1:1"
+--- # Service for kafka
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  labels:
+    app: kafka
+spec:
+  ports:
+    - name: client
+      port: 2181
+      protocol: TCP
+    - name: follower
+      port: 2888
+      protocol: TCP
+    - name: leader
+      port: 3888
+      protocol: TCP
+  selector:
+    app: kafka

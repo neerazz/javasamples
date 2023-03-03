@@ -187,6 +187,12 @@ Delete all the minikube clusters:
 minikube delete --all 
 ~~~
 
+Load a local Docker image:
+
+~~~shell
+minikube image load neerazz/javasamples:latest
+~~~
+
 #### Have a look at [The minikube handbook](https://minikube.sigs.k8s.io/docs/handbook/) for more detailed explanation.
 
 ## ```minikube``` Install is complete.
@@ -249,25 +255,60 @@ The purpose of this folder is to hold all the Kubernetes YAML files that you wil
   - [Here is the definition of a Deployment](kube/deployment.yaml).
 - Next resource that you need
   is  [Service](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#service-v1-core).
-  - To expose your [JavaSample application](https://github.com/neerazz/javasamples/tree/spring_boot_with_docker_k8) you
-    need Service.
-  - [Here is the definition of a Service](kube/service.yaml).
-  - ![Service Flow](docs/images/k8s_service.svg "Service Flow")
-- Submit your resource definitions to Kubernetes with the following command
-  - ~~~shell
+    - To expose your [JavaSample application](https://github.com/neerazz/javasamples/tree/spring_boot_with_docker_k8)
+      you
+      need Service.
+    - [Here is the definition of a Service](kube/service.yaml).
+    - ![Service Flow](docs/images/k8s_service.svg "Service Flow")
+- #### Submit your resource definitions to Kubernetes with the following command
+    - ~~~shell
     kubectl apply -f kube/postgres_singlefile.yaml
     ~~~ 
-  - **Note:** _This command submits all the YAML files in the kube directory to Kubernetes._
-  - > The -f flag accepts either a single filename or a directory. In the latter case, all YAML files in the directory
-    are submitted. - ~~~shell
-    kubectl apply -f kube
-    ~~~ 
-  - **Note:** _This command submits all the YAML files in the kube directory to Kubernetes._
-  - > The -f flag accepts either a single filename or a directory. In the latter case, all YAML files in the directory
-    are submitted.
-  - ~~~shell
+    - **Note:** _This command submits all the YAML files in the kube directory to Kubernetes._
+    - > The `-f` flag accepts either a single filename or a directory. In the latter case, all YAML files in the
+      directory
+      are submitted.
+      ~~~shell
+      kubectl apply -f kube
+      ~~~ 
+    - **Note:** _This command submits all the YAML files in the kube directory to Kubernetes._
+    - > The `-f` flag accepts either a single filename or a directory. In the latter case, all YAML files in the
+      directory
+      are submitted.
+    - ~~~shell
     kubectl apply -f kube 
     ~~~ 
-  - **Note:** _This command submits all the YAML files in the kube directory to Kubernetes._
-  - > The -f flag accepts either a single filename or a directory. In the latter case, all YAML files in the directory
-    are submitted.
+    - **Note:** _This command submits all the YAML files in the kube directory to Kubernetes._
+    - > The `-f` flag accepts either a single filename or a directory. In the latter case, all YAML files in the
+      directory
+      are submitted.
+
+> **Note:** You can watch the application either through minikube dashboard, or using kubectl commands.
+
+- #### You can now access your application through the `javasamples` Service. In Minikube, a Service can be accessed with the following command:
+
+```shell
+minikube service javasamples --url
+```
+
+- This command should print the URL of `javasamples` Service.
+
+### Scaling your application
+
+#### Kubernetes makes it very easy to increase the number of replicas to 2 or more:
+
+```shell
+kubectl scale --replicas=2 deployment/javasamples
+```
+
+#### You can watch how a new Pod is created with:
+
+```shell
+kubectl get pods -l app=javasamples --watch
+```
+
+> The `-l` flag restricts the output to only those Pods with an app=javasamples label.
+
+### References:
+
+- #### [Installing Kafka Docker on Kubernetes](https://dzone.com/articles/ultimate-guide-to-installing-kafka-docker-on-kuber)

@@ -261,7 +261,7 @@ The purpose of this folder is to hold all the Kubernetes YAML files that you wil
     - [Here is the definition of a Service](kube/service.yaml).
     - ![Service Flow](docs/images/k8s_service.svg "Service Flow")
 - #### Submit your resource definitions to Kubernetes with the following command
-    - ~~~shell
+  ~~~shell
     kubectl apply -f kube/postgres_singlefile.yaml
     ~~~ 
     - **Note:** _This command submits all the YAML files in the kube directory to Kubernetes._
@@ -275,7 +275,7 @@ The purpose of this folder is to hold all the Kubernetes YAML files that you wil
     - > The `-f` flag accepts either a single filename or a directory. In the latter case, all YAML files in the
       directory
       are submitted.
-    - ~~~shell
+  ~~~shell
     kubectl apply -f kube 
     ~~~ 
     - **Note:** _This command submits all the YAML files in the kube directory to Kubernetes._

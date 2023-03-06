@@ -19,6 +19,6 @@ java-samples:
 
 # Kafka properties
 kafka:
-  bootstrapServers: localhost:9092
-  schemaRegistryUrl: http://localhost:18081
+  bootstrapServers: kafka:9092
+  schemaRegistryUrl: http://kafka:18081
   consumerGroupId: consumer-g1

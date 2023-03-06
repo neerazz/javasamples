@@ -42,13 +42,13 @@ management:
 
 # Kafka properties
 kafka:
-  vmsIssuesTopic: java-samples_emp_issues
-  vmsAssetTopic: java-samples_emp_asset
-  vmsSecurityControlsTopic: java-samples_emp_controls
-  vmsSecuritySubCategoriesTopic: java-samples_emp_control_sub_categories
-  vmsSecurityControlFindingsTopic: java-samples_emp_control_findings
-  vmsVulnerabilityTopic: java-samples_emp_vulnerabilities
-  vmsVulnerabilityFindingTopic: java-samples_emp_vulnerability_finding
+  vmsIssuesTopic: java_samples_emp_issues
+  vmsAssetTopic: java_samples_emp_asset
+  vmsSecurityControlsTopic: java_samples_emp_controls
+  vmsSecuritySubCategoriesTopic: java_samples_emp_control_sub_categories
+  vmsSecurityControlFindingsTopic: java_samples_emp_control_findings
+  vmsVulnerabilityTopic: java_samples_emp_vulnerabilities
+  vmsVulnerabilityFindingTopic: java_samples_emp_vulnerability_finding
 
 # Logging properties
 logging:
